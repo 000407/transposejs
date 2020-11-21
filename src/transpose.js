@@ -7,7 +7,7 @@
 		var currentOffset = 0;
 
 		_this.transpose = function(offset, selector = "span.chord") {
-			if(offset === 0) { // reset existing transpose
+			if(offset === 0) {
 				offset = currentOffset * -1;
 				currentOffset = 0;
 			}
