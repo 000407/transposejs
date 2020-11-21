@@ -7,7 +7,7 @@
     "start": "concurrently -k \"npm run dev\" \"npm run watch-css\"",
     "dev": "lite-server",
     "db": "json-server --watch db.json --port 3005",
-    "build": "babel src/ -d ./dist/",
+    "build": "babel src/ -d ./build/",
     "lint": "lint jshint src/**/**.js",
     "build-css": "node-sass --include-path scss scss/main.scss assets/main.css",
     "watch-css": "nodemon -e scss -x \"npm run build-css\"",
