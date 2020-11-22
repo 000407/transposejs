@@ -17,6 +17,12 @@ export default class Transposer {
 		this.currentOffset = 0;
 	}
 
+	init(config = {}) {
+		if(config.transpose) {
+			this.transpose = config.transpose;
+		}
+	}
+
 	transpose(offset, selector = "span.chord") {
 		if(offset === 0) {
 			offset = this.currentOffset * -1;
