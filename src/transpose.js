@@ -1,80 +1,76 @@
-(function(window){
-	function Transposer(){
-		var _this = this;
+export default class Transposer {
+	static get CHORD_ROOTS() { 
+		return ['A', 'Bb', 'B', 'C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab'];
+	}
 
-		const chordRoots =  ['A', 'Bb', 'B', 'C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab'];
+	static get REPLACEMENTS() {
+		return {
+			'A#': 'Bb',
+			'Db': 'C#',
+			'D#': 'Eb',
+			'Gb': 'F#',
+			'G#': 'Ab'
+		}
+	}
 
-		var currentOffset = 0;
+	constructor() {
+		this.currentOffset = 0;
+	}
 
-		_this.transpose = function(offset, selector = "span.chord") {
-			if(offset === 0) {
-				offset = currentOffset * -1;
-				currentOffset = 0;
-			}
-			else {
-				currentOffset = (currentOffset + offset) % 12;
-			}
-			
-			for(var c of document.querySelectorAll(selector)) {
-				c.innerHTML = _this.transposeChord(c.innerHTML, offset);
-			}
-		};
+	transpose(offset, selector = "span.chord") {
+		if(offset === 0) {
+			offset = this.currentOffset * -1;
+			this.currentOffset = 0;
+		}
+		else {
+			this.currentOffset = (this.currentOffset + offset) % 12;
+		}
+		
+		for(let c of document.querySelectorAll(selector)) {
+			c.innerHTML = this.transposeChord(c.innerHTML, offset);
+		}
+	}
 
-		_this.transposeChord = function(chord, offset) {
-			if(offset < 0) {
-				offset = 12 + offset;
-			}
-
-			var modifier = '';
-
-			if (m = chord.match(/dim([\d]{1})?$/)) {
-				modifier = m[0];
-			}
-			else if (m = chord.match(/m$/)) {
-				modifier = m[0];
-			}
-			else if (m = chord.match(/maj7$/)) {
-				modifier = m[0];
-			}
-			else if (m = chord.match(/7$/)) {
-				modifier = m[0];
-			}
-			else if (m = chord.match(/aug([\d]{1})?$/)) {
-				modifier = m[0];
-			}
-			else if (m = chord.match(/sus([\d]{1})?$/)) {
-				modifier = m[0];
-			}
-
-			var [chordRoot, replaced] = _this.normalizeChord(chord.replace(modifier, ''));
-
-			var srcIndex = chordRoots.indexOf(chordRoot);
-
-			if (srcIndex >= 0) {
-				var tgtIndex = (srcIndex + offset) % 12;
-				return chordRoots[tgtIndex] + modifier;
-			}
-
-			console.error("Invalid chord:", chord);
-		};
-
-		_this.normalizeChord = function(chord) {
-			const replacements = {
-				'A#': 'Bb',
-				'Db': 'C#',
-				'D#': 'Eb',
-				'Gb': 'F#',
-				'G#': 'Ab'
-			};
-
-			var replacement = replacements[chord];
-			return replacement ? [replacement, true] : [chord, false];
+	transposeChord(chord, offset) {
+		if(offset < 0) {
+			offset = 12 + offset;
 		}
 
-		return _this;
+		let modifier = '';
+
+		if (m = chord.match(/dim([\d]{1})?$/)) {
+			modifier = m[0];
+		}
+		else if (m = chord.match(/m$/)) {
+			modifier = m[0];
+		}
+		else if (m = chord.match(/maj7$/)) {
+			modifier = m[0];
+		}
+		else if (m = chord.match(/7$/)) {
+			modifier = m[0];
+		}
+		else if (m = chord.match(/aug([\d]{1})?$/)) {
+			modifier = m[0];
+		}
+		else if (m = chord.match(/sus([\d]{1})?$/)) {
+			modifier = m[0];
+		}
+
+		let [chordRoot, replaced] = this.normalizeChord(chord.replace(modifier, ''));
+
+		let srcIndex = Transposer.CHORD_ROOTS.indexOf(chordRoot);
+
+		if (srcIndex >= 0) {
+			let tgtIndex = (srcIndex + offset) % 12;
+			return Transposer.CHORD_ROOTS[tgtIndex] + modifier;
+		}
+
+		console.error("Invalid chord:", chord);
 	}
 
-	if(typeof(window.transposer) === 'undefined'){
-		window.transposer = Transposer();
+	normalizeChord(chord) {
+		let replacement = Transposer.REPLACEMENTS[chord];
+		return replacement ? [replacement, true] : [chord, false];
 	}
-})(window);
+}
