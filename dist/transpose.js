@@ -65,6 +65,15 @@ var Transposer = /*#__PURE__*/function () {
   }
 
   _createClass(Transposer, [{
+    key: "init",
+    value: function init() {
+      var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      if (config.transpose) {
+        this.transpose = config.transpose;
+      }
+    }
+  }, {
     key: "transpose",
     value: function transpose(offset) {
       var selector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "span.chord";
