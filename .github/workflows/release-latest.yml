@@ -1,7 +1,7 @@
-name: Deploy Command
+name: Release Command
 on:
   repository_dispatch:
-    types: [deploy-command]
+    types: [release-command]
 jobs:
   build:
 
