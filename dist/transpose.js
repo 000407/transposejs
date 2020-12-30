@@ -69,7 +69,7 @@ var Transposer = /*#__PURE__*/function () {
     value: function init() {
       var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      if ('transpose' in conf && conf.transpose instanceof Function) {
+      if ('transpose' in config && config.transpose instanceof Function) {
         this.transpose = config.transpose;
       } else {
         this.transpose = function (offset) {
