@@ -18,7 +18,7 @@ export default class Transposer {
 	}
 
 	init(config = {}) {
-		if('transpose' in config && config.transpose instanceof Function) {
+		if(typeof config.transpose === 'function') {
 			this.transpose = config.transpose;
 		}
 		else {
@@ -32,7 +32,7 @@ export default class Transposer {
 				}
 				
 				for(var c of document.querySelectorAll(selector)) {
-					c.innerHTML = _this.transposeChord(c.innerHTML, offset);
+					c.innerHTML = this.transposeChord(c.innerHTML, offset);
 				}
 			};
 		}
