@@ -67,39 +67,45 @@ var Transposer = /*#__PURE__*/function () {
   _createClass(Transposer, [{
     key: "init",
     value: function init() {
-      var _this = this;
-
       var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      if (typeof config.transpose === 'function') {
-        this.transpose = config.transpose;
-      } else {
-        this.transpose = function (offset) {
-          var selector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "span.chord";
-
-          if (offset === 0) {
-            // reset existing transpose
-            offset = _this.currentOffset * -1;
-            _this.currentOffset = 0;
-          } else {
-            _this.currentOffset = (_this.currentOffset + offset) % 12;
-          }
-
-          var _iterator = _createForOfIteratorHelper(document.querySelectorAll(selector)),
-              _step;
-
-          try {
-            for (_iterator.s(); !(_step = _iterator.n()).done;) {
-              var c = _step.value;
-              c.innerHTML = _this.transposeChord(c.innerHTML, offset);
-            }
-          } catch (err) {
-            _iterator.e(err);
-          } finally {
-            _iterator.f();
-          }
-        };
+      if (typeof config.render === 'function') {
+        this.renderTransposition = config.render;
       }
+    }
+  }, {
+    key: "renderTransposition",
+    value: function renderTransposition(offset) {
+      var selector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "span.chord";
+
+      var _iterator = _createForOfIteratorHelper(document.querySelectorAll(selector)),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var c = _step.value;
+          c.innerHTML = this.transposeChord(c.innerHTML, offset);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    }
+  }, {
+    key: "transpose",
+    value: function transpose(offset) {
+      var selector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "span.chord";
+
+      if (offset === 0) {
+        // reset existing transpose
+        offset = this.currentOffset * -1;
+        this.currentOffset = 0;
+      } else {
+        this.currentOffset = (this.currentOffset + offset) % 12;
+      }
+
+      this.renderTransposition(offset, selector);
     }
   }, {
     key: "transposeChord",
