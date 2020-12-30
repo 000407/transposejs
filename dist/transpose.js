@@ -67,11 +67,11 @@ var Transposer = /*#__PURE__*/function () {
   _createClass(Transposer, [{
     key: "init",
     value: function init() {
-      var _this2 = this;
+      var _this = this;
 
       var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      if ('transpose' in config && config.transpose instanceof Function) {
+      if (typeof config.transpose === 'function') {
         this.transpose = config.transpose;
       } else {
         this.transpose = function (offset) {
@@ -79,10 +79,10 @@ var Transposer = /*#__PURE__*/function () {
 
           if (offset === 0) {
             // reset existing transpose
-            offset = _this2.currentOffset * -1;
-            _this2.currentOffset = 0;
+            offset = _this.currentOffset * -1;
+            _this.currentOffset = 0;
           } else {
-            _this2.currentOffset = (_this2.currentOffset + offset) % 12;
+            _this.currentOffset = (_this.currentOffset + offset) % 12;
           }
 
           var _iterator = _createForOfIteratorHelper(document.querySelectorAll(selector)),
