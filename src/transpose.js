@@ -18,7 +18,7 @@ export default class Transposer {
 	}
 
 	init(config = {}) {
-		if('transpose' in conf && conf.transpose instanceof Function) {
+		if('transpose' in config && config.transpose instanceof Function) {
 			this.transpose = config.transpose;
 		}
 		else {
