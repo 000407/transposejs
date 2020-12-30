@@ -18,22 +18,23 @@ export default class Transposer {
 	}
 
 	init(config = {}) {
-		if(config.transpose) {
+		if('transpose' in conf && conf.transpose instanceof Function) {
 			this.transpose = config.transpose;
 		}
-	}
-
-	transpose(offset, selector = "span.chord") {
-		if(offset === 0) {
-			offset = this.currentOffset * -1;
-			this.currentOffset = 0;
-		}
 		else {
-			this.currentOffset = (this.currentOffset + offset) % 12;
-		}
-		
-		for(let c of document.querySelectorAll(selector)) {
-			c.innerHTML = this.transposeChord(c.innerHTML, offset);
+			this.transpose = (offset, selector = "span.chord") => {
+				if(offset === 0) { // reset existing transpose
+					offset = currentOffset * -1;
+					currentOffset = 0;
+				}
+				else {
+					currentOffset = (currentOffset + offset) % 12;
+				}
+				
+				for(var c of document.querySelectorAll(selector)) {
+					c.innerHTML = _this.transposeChord(c.innerHTML, offset);
+				}
+			};
 		}
 	}
 
