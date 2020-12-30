@@ -69,34 +69,34 @@ var Transposer = /*#__PURE__*/function () {
     value: function init() {
       var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      if (config.transpose) {
+      if ('transpose' in conf && conf.transpose instanceof Function) {
         this.transpose = config.transpose;
-      }
-    }
-  }, {
-    key: "transpose",
-    value: function transpose(offset) {
-      var selector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "span.chord";
-
-      if (offset === 0) {
-        offset = this.currentOffset * -1;
-        this.currentOffset = 0;
       } else {
-        this.currentOffset = (this.currentOffset + offset) % 12;
-      }
+        this.transpose = function (offset) {
+          var selector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "span.chord";
 
-      var _iterator = _createForOfIteratorHelper(document.querySelectorAll(selector)),
-          _step;
+          if (offset === 0) {
+            // reset existing transpose
+            offset = currentOffset * -1;
+            currentOffset = 0;
+          } else {
+            currentOffset = (currentOffset + offset) % 12;
+          }
 
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var c = _step.value;
-          c.innerHTML = this.transposeChord(c.innerHTML, offset);
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
+          var _iterator = _createForOfIteratorHelper(document.querySelectorAll(selector)),
+              _step;
+
+          try {
+            for (_iterator.s(); !(_step = _iterator.n()).done;) {
+              var c = _step.value;
+              c.innerHTML = _this.transposeChord(c.innerHTML, offset);
+            }
+          } catch (err) {
+            _iterator.e(err);
+          } finally {
+            _iterator.f();
+          }
+        };
       }
     }
   }, {
