@@ -18,24 +18,27 @@ export default class Transposer {
 	}
 
 	init(config = {}) {
-		if(typeof config.transpose === 'function') {
-			this.transpose = config.transpose;
+		if(typeof config.render === 'function') {
+			this.renderTransposition = config.render;
+		}
+	}
+
+	renderTransposition(offset, selector = "span.chord") {
+		for(var c of document.querySelectorAll(selector)) {
+			c.innerHTML = this.transposeChord(c.innerHTML, offset);
+		}
+	}
+
+	transpose(offset, selector = "span.chord") {
+		if(offset === 0) { // reset existing transpose
+			offset = this.currentOffset * -1;
+			this.currentOffset = 0;
 		}
 		else {
-			this.transpose = (offset, selector = "span.chord") => {
-				if(offset === 0) { // reset existing transpose
-					offset = this.currentOffset * -1;
-					this.currentOffset = 0;
-				}
-				else {
-					this.currentOffset = (this.currentOffset + offset) % 12;
-				}
-				
-				for(var c of document.querySelectorAll(selector)) {
-					c.innerHTML = this.transposeChord(c.innerHTML, offset);
-				}
-			};
+			this.currentOffset = (this.currentOffset + offset) % 12;
 		}
+
+		this.renderTransposition(offset, selector);
 	}
 
 	transposeChord(chord, offset) {
