@@ -24,11 +24,11 @@ export default class Transposer {
 		else {
 			this.transpose = (offset, selector = "span.chord") => {
 				if(offset === 0) { // reset existing transpose
-					offset = currentOffset * -1;
-					currentOffset = 0;
+					offset = this.currentOffset * -1;
+					this.currentOffset = 0;
 				}
 				else {
-					currentOffset = (currentOffset + offset) % 12;
+					this.currentOffset = (this.currentOffset + offset) % 12;
 				}
 				
 				for(var c of document.querySelectorAll(selector)) {
