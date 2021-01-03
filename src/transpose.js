@@ -13,23 +13,30 @@ export default class Transposer {
 		}
 	}
 
-	constructor() {
+	constructor(config = {}) {
 		this.currentOffset = 0;
+		this.selector = "span.chords";
+
+		this.init(config);
 	}
 
 	init(config = {}) {
 		if(typeof config.render === 'function') {
 			this.renderTransposition = config.render;
 		}
+
+		if(typeof config.selector === 'string') {
+			this.selector = config.selector;
+		}
 	}
 
-	renderTransposition(offset, selector = "span.chord") {
-		for(var c of document.querySelectorAll(selector)) {
+	renderTransposition(offset) {
+		for(var c of document.querySelectorAll(this.selector)) {
 			c.innerHTML = this.transposeChord(c.innerHTML, offset);
 		}
 	}
 
-	transpose(offset, selector = "span.chord") {
+	transpose(offset) {
 		if(offset === 0) { // reset existing transpose
 			offset = this.currentOffset * -1;
 			this.currentOffset = 0;
@@ -38,7 +45,7 @@ export default class Transposer {
 			this.currentOffset = (this.currentOffset + offset) % 12;
 		}
 
-		this.renderTransposition(offset, selector);
+		this.renderTransposition(offset);
 	}
 
 	transposeChord(chord, offset) {
@@ -48,23 +55,23 @@ export default class Transposer {
 
 		let modifier = '';
 
-		if (m = chord.match(/dim([\d]{1})?$/)) {
-			modifier = m[0];
+		if (chord.match(/dim([\d]{1})?$/)) {
+			modifier = chord.match(/dim([\d]{1})?$/);
 		}
-		else if (m = chord.match(/m$/)) {
-			modifier = m[0];
+		else if (chord.match(/m$/)) {
+			modifier = chord.match(/m$/);
 		}
-		else if (m = chord.match(/maj7$/)) {
-			modifier = m[0];
+		else if (chord.match(/maj7$/)) {
+			modifier = chord.match(/maj7$/);
 		}
-		else if (m = chord.match(/7$/)) {
-			modifier = m[0];
+		else if (chord.match(/7$/)) {
+			modifier = chord.match(/7$/);
 		}
-		else if (m = chord.match(/aug([\d]{1})?$/)) {
-			modifier = m[0];
+		else if (chord.match(/aug([\d]{1})?$/)) {
+			modifier = chord.match(/aug([\d]{1})?$/);
 		}
-		else if (m = chord.match(/sus([\d]{1})?$/)) {
-			modifier = m[0];
+		else if (chord.match(/sus([\d]{1})?$/)) {
+			modifier = chord.match(/sus([\d]{1})?$/);
 		}
 
 		let [chordRoot, replaced] = this.normalizeChord(chord.replace(modifier, ''));
