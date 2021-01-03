@@ -2,7 +2,7 @@
   "name": "transpose.js",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/lib/transpose.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "concurrently -k \"npm run dev\" \"npm run watch-css\"",
     "dev": "lite-server",
@@ -17,9 +17,16 @@
     "posttest": "echo the test has been run!",
     "bash": "Location of the bash/shell script file"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/000407/transpose.js.git"
+  },
+  "keywords": ["chords", "transpose", "music"],
+  "author": "Kanchana Senadheera <kanchana@senadheera.net> (kanchana.senadheera.net)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.12.7",
