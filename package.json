@@ -1,5 +1,5 @@
 {
-  "name": "transpose.js",
+  "name": "@_000407/transpose.js",
   "version": "1.0.0",
   "description": "",
   "main": "src/main.js",
@@ -21,7 +21,11 @@
     "type": "git",
     "url": "https://github.com/000407/transpose.js.git"
   },
-  "keywords": ["chords", "transpose", "music"],
+  "keywords": [
+    "chords",
+    "transpose",
+    "music"
+  ],
   "author": "Kanchana Senadheera <kanchana@senadheera.net> (kanchana.senadheera.net)",
   "license": "MIT",
   "publishConfig": {
@@ -35,6 +39,7 @@
     "babel-loader": "^8.2.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-minify": "^0.5.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^5.6.0",
     "webpack-cli": "^4.2.0"
   }
